@@ -5,7 +5,7 @@ Ansible role created from steps on this [tutorial](https://www.digitalocean.com/
 
 ## Requirements
 
-**OS**: debian/ubuntu based distro
+**OS**: debian/ubuntu based distro\
 **Package**: 	postfix installed & operational
 
 ## Role Variables
