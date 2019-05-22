@@ -1,10 +1,10 @@
 # Ansible Role: Opendkim for postfix
 
-Installs opendkim & set configs on Debian/Ubuntu.
+Install opendkim & set configs on Debian/Ubuntu.
 
 ## Requirements
 
-**OS**: debian/ubuntu based distro\
+**OS**: debian/ubuntu based distro
 
 **Package**: 	postfix installed & operational
 
