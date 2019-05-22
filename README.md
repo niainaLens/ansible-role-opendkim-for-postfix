@@ -4,7 +4,8 @@ Installs opendkim & set configs on Debian/Ubuntu.
 
 ## Requirements
 
-**OS**: debian/ubuntu based distro
+**OS**: debian/ubuntu based distro\
+
 **Package**: 	postfix installed & operational
 
 ## Role Variables
@@ -13,16 +14,20 @@ Needed variables are listed below, along with default values (see `defaults/main
 
 to edit:
 
-- vars into file: /etc/opendkim/TrustedHosts
+- vars into file: /etc/opendkim/TrustedHosts 
 
-		ip_trusted: '1.2.3.4/24'
-		domain_trusted: '*.mysite.com'
+```
+ip_trusted: '1.2.3.4/24'
+domain_trusted: '*.mysite.com'
+```
 
-- var into file: /etc/opendkim/KeyTable, /etc/opendkim/SigningTable
-&
- var for directory name: /etc/opendkim/keys/{{ domain_com }}
+- var into file: /etc/opendkim/KeyTable, /etc/opendkim/SigningTable\
+  &\
+  directory name: /etc/opendkim/keys/{{ domain_com }}
 
-		domain_com: mysite.com
+```
+domain_com: mysite.com
+```
 
 
 ## Dependencies
