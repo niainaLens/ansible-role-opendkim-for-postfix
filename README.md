@@ -1,11 +1,11 @@
 # Ansible Role: Opendkim for postfix
 
-Install opendkim & set configs on Debian/Ubuntu.
+Install opendkim & set configs on Debian/Ubuntu.\
+Ansible role created from steps on this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy).
 
 ## Requirements
 
 **OS**: debian/ubuntu based distro
-
 **Package**: 	postfix installed & operational
 
 ## Role Variables
