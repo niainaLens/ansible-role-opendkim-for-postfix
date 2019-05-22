@@ -1,0 +1,107 @@
+# tasks file for opendkim
+---
+- name: install package
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+    cache_valid_time: 86400
+  with_items: "{{ opendkim_install }}"
+
+- name: update opendkim main config (/etc/opendkim.conf)
+  template:
+    src: etc/opendkim.conf
+    dest: /etc/opendkim.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Connect the milter to Postfix, update default opendkim config (/etc/default/opendkim)
+  template:
+    src: etc/default/opendkim
+    dest: /etc/default/opendkim
+    owner: root
+    group: root
+    mode: 0644
+
+- name: append the opendkim milter to postfix main config
+  lineinfile:
+    path: /etc/postfix/main.cf
+    line: "{{ item }}"
+  with_items:
+    - 'smtpd_milters = inet:localhost:12301'
+    - 'non_smtpd_milters = inet:localhost:12301'
+
+- name: create directory /etc/opendkim
+  file:
+    path: "/etc/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  with_items: ["opendkim"]
+
+- name: create subdirectory (/etc/opendkim/keys)
+  file:
+    path: "/etc/opendkim/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+    recurse: yes
+    state: directory
+  with_items: ["keys"]
+
+- name: Create Trusted hosts list to /etc/opendkim/TrustedHosts
+  template:
+    src: etc/opendkim/TrustedHosts
+    dest: /etc/opendkim/TrustedHosts
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create keytable to /etc/opendkim/KeyTable
+  template:
+    src: etc/opendkim/KeyTable
+    dest: /etc/opendkim/KeyTable
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create SigningTable to /etc/opendkim/SigningTable
+  template:
+    src: etc/opendkim/SigningTable
+    dest: /etc/opendkim/SigningTable
+    owner: root
+    group: root
+    mode: 0644
+
+#Generate the public and private keys
+- name: create subdirectory in keys directory
+  file:
+    path: "/etc/opendkim/keys/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+    recurse: yes
+    state: directory
+  with_items: ["{{ domain_com }}"]
+
+- name: Generate the keys to the directory {{ domain_com }}
+  command: chdir=/etc/opendkim/keys/{{ domain_com }} opendkim-genkey -s mail -d {{ domain_com }}
+
+- name: Change the owner of the private key to opendkim
+  file:
+    path: /etc/opendkim/keys/{{ domain_com }}/mail.private
+    owner: opendkim
+    group: opendkim
+    mode: 0644
+
+#restart postfix/opendkim service_default_state
+- name: Restart postfix service
+  service:
+    name: postfix
+    state: restarted
+
+- name: Restart opendkim service
+  service:
+    name: opendkim
+    state: restarted

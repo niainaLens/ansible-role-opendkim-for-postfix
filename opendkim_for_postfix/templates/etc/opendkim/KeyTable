@@ -1,0 +1,1 @@
+mail._domainkey.{{ domain_com }} {{ domain_com }}:mail:/etc/opendkim/keys/{{ domain_com }}/mail.private

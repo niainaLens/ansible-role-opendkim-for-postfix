@@ -1,0 +1,6 @@
+127.0.0.1
+localhost
+
+{{ ip_trusted }}
+
+{{ domain_trusted }}

@@ -1,0 +1,13 @@
+# handlers file for opendkim
+---
+- name: restart postfix service
+  service:
+    name: postfix
+    state: restarted
+  when: service_default_state | default('started') == 'started'
+
+- name: restart opendkim service
+  service:
+    name: opendkim
+    state: restarted
+  when: service_default_state | default('started') == 'started'

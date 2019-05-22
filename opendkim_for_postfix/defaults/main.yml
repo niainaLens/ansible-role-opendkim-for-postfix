@@ -1,0 +1,35 @@
+# defaults file for postfix
+---
+opendkim_install:
+  - opendkim
+  - opendkim-tools
+
+# to /etc/opendkim.conf
+UMask: '002'
+AutoRestart: 'AutoRestart Yes'
+AutoRestartRate: 'AutoRestartRate 10/1h'
+SyslogSuccess: 'SyslogSuccess Yes'
+LogWhy: 'LogWhy Yes'
+Canonicalization: 'Canonicalization relaxed/simple'
+ExternalIgnoreList: 'ExternalIgnoreList refile:/etc/opendkim/TrustedHosts'
+InternalHosts: 'InternalHosts refile:/etc/opendkim/TrustedHosts'
+KeyTable: 'KeyTable refile:/etc/opendkim/KeyTable'
+SigningTable: 'SigningTable refile:/etc/opendkim/SigningTable'
+Mode: 'Mode sv'
+SignatureAlgorithm: 'SignatureAlgorithm rsa-sha256'
+Socket: 'Socket inet:12301@localhost'
+
+#to /etc/default/opendkim
+SOCKET: 'SOCKET="inet:12301@localhost"'
+
+#to file /etc/opendkim/TrustedHosts
+#example:
+  #ip_trusted: '151.81.319.7/24'
+  #domain_trusted: '*.mysite.com'
+ip_trusted: '1.2.3.4/24'
+domain_trusted: '*.mysite.com'
+
+#domain wanted
+#to /etc/opendkim/KeyTable, /etc/opendkim/SigningTable
+#directory /etc/opendkim/keys/{{ domain_com }}
+domain_com: mysite.com
