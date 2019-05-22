@@ -1,7 +1,0 @@
----
-- hosts: 
-  remote_user: 
-  become: true
-  roles:
-    - postfix
-    - opendkim
